@@ -13,12 +13,11 @@ namespace Person
         public int age;
         public Genders gender;
 
-        public Person(string firstName, string lastName, int age, Genders gender)
+        public Person(string firstName, string lastName, int age, Genders gender) : this(gender)
         {
             this.firstName = firstName;
             this.lastName = lastName;
             this.age = age;
-            this.gender = gender;
         }
 
         public Person(Genders gender)
