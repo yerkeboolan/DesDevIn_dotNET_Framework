@@ -18,7 +18,7 @@ namespace ViewTextFiles
                 StreamReader tr = new StreamReader(@"C:\user\wow.txt");
                 try
                 {
-                    Console.WriteLine(tr);
+                    Console.WriteLine(tr.ReadToEnd());
                 }
                 catch (Exception u)
                 {
