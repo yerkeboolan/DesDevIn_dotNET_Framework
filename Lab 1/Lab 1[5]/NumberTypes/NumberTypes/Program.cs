@@ -12,9 +12,11 @@ namespace NumberTypes
         {
             Int16 x = 24;
             Int32 y = 256;
+            double z = 6.25;
 
             Console.WriteLine(x);
-            Console.Write(y);
+            Console.WriteLine(y);
+            Console.Write(z);
             Console.ReadKey();
         }
     }

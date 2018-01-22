@@ -30,6 +30,7 @@ namespace Person
             return "First name: " + firstName + "\n" + "Last name: " + lastName + "\n" + "Age: " + age + "\n" + "Gender: " + gender;
         }
 
+
         static void Main(string[] args)
         {
             Person person = new Person("Manas", "Satzhanov", 24, Genders.Male);
