@@ -50,84 +50,57 @@ namespace FullSpellCorrector
 
             richTextBox1.SelectionColor = Color.Black;
 
-
-
             if (n - 1 > 0 && text != "" && !Char.IsLetter(text[n - 1]) && !char.IsDigit(text[n - 1]))
             {
-
                 for (int i = n - 2; i >= 0; i--)
                 {
-
                     if (i == 0)
                     {
                         word = text.Substring(i, n - i - 1);
-
                         break;
-
                     }
                     if (!Char.IsLetter(text[i]) && !char.IsDigit(text[i]))
                     {
                         word = text.Substring(i + 1, n - i - 2);
-
                         break;
                     }
 
                 }
                 if (word == "") return;
 
-
-
-                //если слово есть в словоре ничего не меняет                
                 if (words.Contains(word) || char.IsNumber(word[0]))
                 {
-
                     return;
-
                 }
-                else //если нет то смотрит на чекбокс
+                else
                 {
-
-                    if (checkBox1.Checked) //чекбокс чеккед
+                    if (checkBox1.Checked)
                     {
-                        c_Checked(text, word, n);
-
+                        boxChecked(text, word, n);
                     }
                     else
                     {
-                        c_NotChecked(word, n); //чекбокс не чеккед (просто функции, сотреть ниже)
-
+                        boxNotChecked(word, n);
 
                     }
                 }
-
-
             }
-
-
-
-
         }
 
-        public void c_Checked(string text, string word, int n)
+        public void boxChecked(string text, string word, int n)
         {
-            string ans = FindTheMinEditDistance(word);//Ливенштейн
+            string ans = FindTheMinEditDistance(word);
 
-            text = ReplaceWord(text, word, ans, n - word.Length - 1);//функция реплейс написаная мной(смотреть ниже)
+            text = ReplaceWord(text, word, ans, n - word.Length - 1);
 
-
-
-
-
-
-            richTextBox1.Text = text; //заменяет слово правильным
-            richTextBox1.SelectionStart = n - word.Length + ans.Length;//перемещает курсор на нужное место
+            richTextBox1.Text = text; 
+            richTextBox1.SelectionStart = n - word.Length + ans.Length;
         }
 
-        public void c_NotChecked(string word, int n)
+        public void boxNotChecked(string word, int n)
         {
 
 
-            //все эти строки просто меняют цвет
             richTextBox1.SelectionStart = n - word.Length - 1;
             richTextBox1.SelectionLength = word.Length;
             richTextBox1.SelectionColor = Color.Red;
@@ -139,7 +112,7 @@ namespace FullSpellCorrector
 
 
 
-        public string FindTheMinEditDistance(string word)//ливенштейн (НЕ ТРОГАТЬ)
+        public string FindTheMinEditDistance(string word)
         {
             string s_comp, ans = "";
             mini = 1000;
@@ -183,20 +156,14 @@ namespace FullSpellCorrector
                         answers.Add(ans);
                     }
                 }
-
-
-
-
             }
 
 
             return ans;
         }
 
-
-
         public string ReplaceWord(string text, string word, string ans, int n)
-        {//обычная реплейс функция просто сам написал
+        {
             int i = n;
             string s = text.Remove(n, word.Length);
 
@@ -223,8 +190,6 @@ namespace FullSpellCorrector
 
         }
 
-
-        //выделяет слово, выводится менюшка с самыми ближащими словами(НЕ ТРОГАТЬ)
         private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
 
@@ -255,11 +220,11 @@ namespace FullSpellCorrector
 
         private void button2_Click(object sender, EventArgs e)
         {
-            richTextBox1.SelectionColor = Color.Black;//Игнор баттон
+            richTextBox1.SelectionColor = Color.Black;
         }
 
 
-        //Из менюшки выбирается слово
+       
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string clicked = e.ClickedItem.Text;
