@@ -13,82 +13,36 @@ using System.Windows.Forms;
 
 namespace FullSpellCorrector
 {
-    [Serializable]
+    
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
             checkBox1.Checked = true;
-            button4.Visible = true;
+
+            while (!sr.EndOfStream)
+            {
+                words.Add(sr.ReadLine());
+            }
+
         }
 
 
-        static List<string> words = null;
-        static List<string> answers = new List<string>();
-        static List<string> temps_w = new List<string>();
-        static List<string> temps_c = new List<string>();
+        StreamReader sr = new StreamReader("words");
+        List<string> words = new List<string>();
+        List<string> answers = new List<string>();
 
-        int mini, position = 0;
-        int[,] pd = null;
-        bool ok = false;
-        char ch = '$';
-        string signs = "$.!?";
         string selected = "";
 
-
-
-
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if(checkBox1.Checked == true)
-            {
-                button1.Visible = false;
-                button2.Visible = false;
-                string text = richTextBox1.Text;
-                if (temps_c.Count > 0)
-                {
-                    for (int i = 0; i < temps_c.Count; i++)
-                    {
-                        text = text.Replace(temps_w[i], temps_c[i]);
-                        System.Diagnostics.Debug.Write(temps_w[i]);
-                    }
-                }
-
-                richTextBox1.Text = text;
-                richTextBox1.SelectAll();
-                richTextBox1.SelectionColor = Color.Black;
-                richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                richTextBox1.SelectionLength = 0;
-                temps_c.Clear();
-                temps_w.Clear();
-            }
-
-            else
-            {
-                button1.Visible = true;
-                button2.Visible = true;
-            }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-
+        int mini = 0;
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             string text = "";
             string word = "";
             int lol = 0, n;
-            if (richTextBox1.Text.Length > position) position = richTextBox1.Text.Length;
-            else
-            {
-                position = richTextBox1.Text.Length + 1;
-            }
+
             if (text == richTextBox1.Text) return;
             text = richTextBox1.Text;
 
@@ -96,7 +50,6 @@ namespace FullSpellCorrector
 
             richTextBox1.SelectionColor = Color.Black;
 
-            System.Diagnostics.Debug.WriteLine(richTextBox1.SelectionStart);
 
 
             if (n - 1 > 0 && text != "" && !Char.IsLetter(text[n - 1]) && !char.IsDigit(text[n - 1]))
@@ -116,48 +69,38 @@ namespace FullSpellCorrector
                     {
                         word = text.Substring(i + 1, n - i - 2);
 
-                        lol = i;
                         break;
                     }
 
                 }
                 if (word == "") return;
-                text = text.Replace(word, word.ToLower());
 
-                word = word.ToLower();
 
+
+                //если слово есть в словоре ничего не меняет                
                 if (words.Contains(word) || char.IsNumber(word[0]))
                 {
-                    
-                    //richTextBox1.Text = text;
-                    richTextBox1.SelectionStart = n;
+
                     return;
 
                 }
-                else
+                else //если нет то смотрит на чекбокс
                 {
 
-                    if (checkBox1.Checked)
+                    if (checkBox1.Checked) //чекбокс чеккед
                     {
-                        c_Checked(text, word, n, lol);
+                        c_Checked(text, word, n);
 
                     }
                     else
                     {
-
-                        c_NotChecked(word, n);
+                        c_NotChecked(word, n); //чекбокс не чеккед (просто функции, сотреть ниже)
 
 
                     }
                 }
 
 
-
-
-
-
-
-
             }
 
 
@@ -165,37 +108,38 @@ namespace FullSpellCorrector
 
         }
 
-
-
-        public void c_Checked(string text, string word, int n, int lol)
+        public void c_Checked(string text, string word, int n)
         {
-            string ans = FindTheMinEditDistance(word);
+            string ans = FindTheMinEditDistance(word);//Ливенштейн
 
-            for (int i = 0; i < signs.Length; i++)
-            {
-                if (lol - 1 > 0 && signs[i] == text[lol - 1]) ok = true;
-            }
-            if (ok && char.IsLetter(ans[0]) || lol == 0)
-            {
-                ans = FirstToUpperCase(ans);
-                ok = false;
-            }
+            text = ReplaceWord(text, word, ans, n - word.Length - 1);//функция реплейс написаная мной(смотреть ниже)
 
-            text = text.Replace(word, ans);
-           // FindBackTrace(word, ans);
-            if (text[text.Length - 1] != 32) text += " ";
-            else if (lol == 0 || text[lol] == 32 && !char.IsLetter(text[lol - 1])) text += " ";
-            richTextBox1.Text = text;
-            if (text[n - word.Length + ans.Length - 1] != 32) richTextBox1.SelectionStart = n - word.Length + ans.Length + 1;
-            else richTextBox1.SelectionStart = n - word.Length + ans.Length;
+
+
+
+
+
+            richTextBox1.Text = text; //заменяет слово правильным
+            richTextBox1.SelectionStart = n - word.Length + ans.Length;//перемещает курсор на нужное место
+        }
+
+        public void c_NotChecked(string word, int n)
+        {
+
+
+            //все эти строки просто меняют цвет
+            richTextBox1.SelectionStart = n - word.Length - 1;
+            richTextBox1.SelectionLength = word.Length;
+            richTextBox1.SelectionColor = Color.Red;
+            richTextBox1.SelectionStart = n;
+            richTextBox1.SelectionLength = 0;
+
         }
 
 
 
 
-
-
-        public string FindTheMinEditDistance(string word)
+        public string FindTheMinEditDistance(string word)//ливенштейн (НЕ ТРОГАТЬ)
         {
             string s_comp, ans = "";
             mini = 1000;
@@ -233,7 +177,7 @@ namespace FullSpellCorrector
                 {
                     mini = dp[word.Length, s_comp.Length];
                     ans = s_comp;
-                    pd = dp;
+
                     if (mini <= 5)
                     {
                         answers.Add(ans);
@@ -251,21 +195,8 @@ namespace FullSpellCorrector
 
 
 
-        public string FirstToUpperCase(string s)
-        {
-            char c = char.ToUpper(s[0]);
-            string ans = "";
-            ans += c;
-            for (int j = 1; j < s.Length; j++)
-            {
-                ans += s[j];
-            }
-
-            return ans;
-        }
-
         public string ReplaceWord(string text, string word, string ans, int n)
-        {
+        {//обычная реплейс функция просто сам написал
             int i = n;
             string s = text.Remove(n, word.Length);
 
@@ -274,37 +205,38 @@ namespace FullSpellCorrector
         }
 
 
-
-
-
-
-
-
-        private void button1_Click(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            words.Add(selected);
+            if (checkBox1.Checked)
+            {
+                button1.Visible = false;
+                button2.Visible = false;
+
+            }
+            else
+            {
+                button2.Visible = true;
+                button1.Visible = true;
 
 
-            //System.Diagnostics.Debug.Write(richTextBox1.SelectedText);
-            richTextBox1.SelectionColor = Color.Black;
-            selected = "";
-            words.Sort();
+            }
+
         }
 
+
+        //выделяет слово, выводится менюшка с самыми ближащими словами(НЕ ТРОГАТЬ)
         private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+
             richTextBox1.AutoWordSelection = true;
             string word = richTextBox1.SelectedText;
             selected = word;
-            if (word.Contains(" ")) word.Remove(word.Length - 1, 1);
+
             contextMenuStrip1.Items.Clear();
-            // System.Diagnostics.Debug.WriteLine(word);
             int n = richTextBox1.SelectionStart + word.Length;
-            int lol = richTextBox1.SelectionStart;
+
             string text = richTextBox1.Text;
-            /* if (checkBox1.Checked) c_Checked(text, word, n, lol);
-             else c_NotChecked(word, n);
-             */
+            answers.Clear();
             string lg = FindTheMinEditDistance(word);
             if (answers.Count > 0)
             {
@@ -314,13 +246,20 @@ namespace FullSpellCorrector
                 }
             }
             if (contextMenuStrip1.Items.Count == 0) contextMenuStrip1.Items.Add(lg);
+
             contextMenuStrip1.Show(Cursor.Position);
-            answers.Clear();
-            // contextMenuStrip1.Items.Add(word);
 
 
         }
 
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionColor = Color.Black;//Игнор баттон
+        }
+
+
+        //Из менюшки выбирается слово
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string clicked = e.ClickedItem.Text;
@@ -329,8 +268,7 @@ namespace FullSpellCorrector
             string text = richTextBox1.Text;
             int n = richTextBox1.SelectionStart;
 
-            //char ch = text[n + richTextBox1.SelectionLength];
-            //clicked += ch;
+
             string word = richTextBox1.SelectedText.Remove(richTextBox1.SelectionLength - 1, 1);
 
             text = ReplaceWord(text, word, clicked, n);
@@ -338,31 +276,23 @@ namespace FullSpellCorrector
             richTextBox1.Select(n, clicked.Length);
             richTextBox1.SelectionColor = Color.Black;
             richTextBox1.SelectionStart = n + clicked.Length;
-
-            System.Diagnostics.Debug.Write(clicked);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            richTextBox1.SelectionColor = Color.Black;
-        }
-
-
-
-
-
-        public void c_NotChecked(string word, int n)
-        {
-
-            temps_w.Add(word);
-            temps_c.Add(FindTheMinEditDistance(word));
-            richTextBox1.SelectionStart = n - word.Length - 1;
-            richTextBox1.SelectionLength = word.Length;
-            richTextBox1.SelectionColor = Color.Red;
-            richTextBox1.SelectionStart = n;
             richTextBox1.SelectionLength = 0;
 
+
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            words.Add(selected);
+
+            richTextBox1.SelectionColor = Color.Black;
+            selected = "";
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
