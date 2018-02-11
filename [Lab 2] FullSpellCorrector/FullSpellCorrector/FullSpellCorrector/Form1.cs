@@ -41,7 +41,7 @@ namespace FullSpellCorrector
         {
             string text = "";
             string word = "";
-            int lol = 0, n;
+            int nn = 0, n;
 
             if (text == richTextBox1.Text) return;
             text = richTextBox1.Text;
@@ -89,7 +89,7 @@ namespace FullSpellCorrector
 
         public void boxChecked(string text, string word, int n)
         {
-            string ans = FindTheMinEditDistance(word);
+            string ans = LeivenshteinAlgorithm(word);
 
             text = ReplaceWord(text, word, ans, n - word.Length - 1);
 
@@ -112,7 +112,7 @@ namespace FullSpellCorrector
 
 
 
-        public string FindTheMinEditDistance(string word)
+        public string LeivenshteinAlgorithm(string word)
         {
             string s_comp, ans = "";
             mini = 1000;
@@ -184,8 +184,6 @@ namespace FullSpellCorrector
             {
                 button2.Visible = true;
                 button1.Visible = true;
-
-
             }
 
         }
@@ -202,7 +200,7 @@ namespace FullSpellCorrector
 
             string text = richTextBox1.Text;
             answers.Clear();
-            string lg = FindTheMinEditDistance(word);
+            string lg = LeivenshteinAlgorithm(word);
             if (answers.Count > 0)
             {
                 for (int i = 0; i < answers.Count; i++)
