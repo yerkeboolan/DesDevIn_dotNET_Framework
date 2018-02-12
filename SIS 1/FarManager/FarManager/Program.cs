@@ -11,11 +11,11 @@ namespace FarManager
     {
         static void showInfo(FileSystemInfo[] current, int index)
         {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.Clear();
+            drawBorder(); 
             int ind = 0;
             foreach (FileSystemInfo fsi in current)
             {
+                Console.SetCursorPosition(1, ind+1);
                 Console.BackgroundColor = ConsoleColor.Black;
                 if (ind++ == index) Console.BackgroundColor = ConsoleColor.Red;
                 String display = fsi.Name.Length < 20 ? fsi.Name : fsi.Name.Substring(0, 20);
@@ -23,9 +23,38 @@ namespace FarManager
                 {
                     draw("[+]", ConsoleColor.Green, false);
                     draw(display, ConsoleColor.Gray, true);
+                    
                 }
+                Console.BackgroundColor = ConsoleColor.Black;
             }
         }
+
+        static void drawBorder()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+           // Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            for(int i = 0; i < Console.WindowHeight; i++)
+            {
+                for(int j = 0; j < Console.WindowWidth; j++)
+                {
+                    if (i == 0 || i == Console.WindowWidth - 1) {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.SetCursorPosition(i, j);
+                        Console.Write("|");
+                    }
+                    else if (j == 0 || j == Console.WindowHeight - 1 || j == 44 || j == 34 || j == 29)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.SetCursorPosition(i, j);
+                        Console.Write("=");
+                        
+                    }
+                }
+            }
+            showPanel();
+        }
+
 
         static void draw(string text, ConsoleColor cc, bool bl)
         {
@@ -38,6 +67,27 @@ namespace FarManager
         {
             Console.BackgroundColor = back;
             draw(text, cc, bl);
+        }
+
+        static void showPanel()
+        {
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.SetCursorPosition(2, 47);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write("F1 Help");
+            Console.SetCursorPosition(10, 47);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write("F2 MkFold");
+            Console.SetCursorPosition(20, 47);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write("F3 MkFil");
+            Console.SetCursorPosition(29, 47);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write("Del Remove");
+            Console.SetCursorPosition(40, 47);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write("F4 Searc");
+
         }
 
         static void Main(string[] args)
@@ -69,13 +119,16 @@ namespace FarManager
                         else index = cur.Length - 1;
                         break;
                     case ConsoleKey.LeftArrow:
+                        Console.Clear();
                         if (parent.Count > 0)
                         {
                             index = indexhist.Pop();
                             cur = parent.Pop();
                         }
                         break;
+                        
                     case ConsoleKey.RightArrow:
+                        Console.Clear();
                         if (cur[index] is DirectoryInfo)
                         {
                             try
