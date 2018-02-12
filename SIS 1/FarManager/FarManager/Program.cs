@@ -32,7 +32,7 @@ namespace FarManager
         static void drawBorder()
         {
             Console.BackgroundColor = ConsoleColor.Black;
-           // Console.Clear();
+            //Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             for(int i = 0; i < Console.WindowHeight; i++)
             {
@@ -48,7 +48,6 @@ namespace FarManager
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
                         Console.SetCursorPosition(i, j);
                         Console.Write("=");
-                        
                     }
                 }
             }
