@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace MenuStrip
@@ -10,7 +11,11 @@ namespace MenuStrip
             InitializeComponent();
 
             menuStrip1.Dock = DockStyle.Top;
+
+            menuStrip1.Hide();
+
         }
+
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -36,6 +41,10 @@ namespace MenuStrip
         {
             MessageBox.Show("Menu Bar on deactivating mode");
         }*/
+
+
+        
+           
 
     }
 }
