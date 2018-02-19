@@ -22,11 +22,11 @@ namespace DictionaryClasses
             Stopwatch stopWatchListDicti = new Stopwatch();
             Stopwatch stopWatchHybDicti = new Stopwatch();
 
-            int cnt = 10000, hashCnt = 0, listCnt = 0, hybCnt = 0;
+            int cnt = 1000, hashCnt = 0, listCnt = 0, hybCnt = 0;
             for (int k = 0; k < 999; k++)
             {
                 stopWatchHashTable.Start();
-                for (int i = 0; i < cnt; i++) hashTable.Add(i, "OOP/.NET");
+                for (int i = 0; i < cnt; i++) hashTable.Add(i, "DesDevIn_dotNET");
 
                 hashTable.Clear();
                 stopWatchHashTable.Stop();
@@ -38,7 +38,7 @@ namespace DictionaryClasses
             for (int k = 0; k < 999; k++)
             {
                 stopWatchListDicti.Start();
-                for (int i = 0; i < cnt; i++) listDicti.Add(i, "OOP/.NET");
+                for (int i = 0; i < cnt; i++) listDicti.Add(i, "DesDevIn_dotNET");
 
                 listDicti.Clear();
                 stopWatchListDicti.Stop();
@@ -47,10 +47,10 @@ namespace DictionaryClasses
             }
 
             Console.WriteLine("RunTime ListDicti " + listCnt / 1000);
-           /* for (int k = 0; k < 999; k++)
+            for (int k = 0; k < 999; k++)
             {
                 stopWatchHybDicti.Start();
-                for (int i = 0; i < cnt; i++) hybDicti.Add(i, "OOP/.NET");
+                for (int i = 0; i < cnt; i++) hybDicti.Add(i, "DesDevIn_dotNET");
 
                 hybDicti.Clear();
                 stopWatchHybDicti.Stop();
@@ -58,7 +58,7 @@ namespace DictionaryClasses
 
                 hybCnt += tsHybDicti.Milliseconds;
             }
-            */
+            
             Console.WriteLine("RunTime HybDicti " + hybCnt / 1000);
 
             Console.ReadKey();
