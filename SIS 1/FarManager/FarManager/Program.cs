@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
-using System.Drawing;
 using System.Text.RegularExpressions;
 
 namespace FarManager
@@ -20,25 +18,80 @@ namespace FarManager
         static string nameFile = "", nameFolder = "";
         static bool cClicked = false, mClicked = false;
         static List<FileSystemInfo> searchedFsis = new List<FileSystemInfo>();
-        static void showInfo(FileSystemInfo[] current, int index)
+
+        static void showInfo(FileSystemInfo[] cur, int index)
         {
-            drawBorder(); 
+            drawBorder();
             int ind = 0;
-            foreach (FileSystemInfo fsi in current)
+
+            if (index > 27)
             {
-                Console.SetCursorPosition(1, ind+1);
-                Console.BackgroundColor = ConsoleColor.Black;
-                if (ind++ == index) Console.BackgroundColor = ConsoleColor.Red;
-                String display = fsi.Name.Length < 20 ? fsi.Name : fsi.Name.Substring(0, 20);
-                if (fsi is DirectoryInfo)
+                ok = true;
+                Clear(28);
+
+                for (int i = index - 27; i <= index; i++)
                 {
-                    draw("[+]", ConsoleColor.Green, false);
-                    draw(display, ConsoleColor.Gray, true);
-                    
+
+                    Console.SetCursorPosition(1, ind + 1);
+
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    if (Console.CursorTop == 28) Console.BackgroundColor = ConsoleColor.Red;
+
+
+                    String disp = cur[i].Name.Length < 20 ? cur[i].Name : cur[i].Name.Substring(0, 20);
+                    if (cur[i] is DirectoryInfo)
+                    {
+                        try
+                        {
+                            if (Directory.Exists((cur[i] as DirectoryInfo).FullName) == true)
+                            {
+                                if ((cur[i] as DirectoryInfo).GetFileSystemInfos().Length != 0) draw("[+]", ConsoleColor.Green, false);
+                                else draw("[+]", ConsoleColor.DarkGreen, false);
+                            }
+                        }
+                        catch (System.UnauthorizedAccessException e) { }
+                        draw(disp, ConsoleColor.Gray, true);
+                    }
+
+                    else { draw(disp, ConsoleColor.White, true); }
+                    ind++;
+
                 }
-                Console.BackgroundColor = ConsoleColor.Black;
             }
+            else
+            {
+                if (ok) { ok = false; Clear(28); }
+                foreach (FileSystemInfo fsi in cur)
+                {
+
+
+                    if (ind > 27) return;
+                    Console.SetCursorPosition(1, ind + 1);
+
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    if (ind++ == index) Console.BackgroundColor = ConsoleColor.Red;
+
+                    String disp = fsi.Name.Length < 20 ? fsi.Name : fsi.Name.Substring(0, 20);
+                    if (fsi is DirectoryInfo)
+                    {
+                        try
+                        {
+                            if (Directory.Exists((fsi as DirectoryInfo).FullName) == true)
+                            {
+                                if ((fsi as DirectoryInfo).GetFileSystemInfos().Length != 0) draw("[+]", ConsoleColor.Green, false);
+                                else draw("[+]", ConsoleColor.DarkGreen, false);
+                            }
+                        }
+                        catch (System.UnauthorizedAccessException e) { }
+                        draw(disp, ConsoleColor.Gray, true);
+                    }
+
+                    else { draw(disp, ConsoleColor.White, true); }
+                }
+            }
+
         }
+
 
         static void drawBorder()
         {
@@ -132,7 +185,7 @@ namespace FarManager
                         else index = cur.Length - 1;
                         break;
                     case ConsoleKey.LeftArrow:
-                        Console.Clear();
+                        Clear(27);
                         if (parent.Count > 0)
                         {
                             index = indexhist.Pop();
@@ -141,7 +194,7 @@ namespace FarManager
                         break;
 
                     case ConsoleKey.RightArrow:
-                        Console.Clear();
+                        Clear(27);
                         if (cur[index] is DirectoryInfo)
                         {
                             try
@@ -201,21 +254,15 @@ namespace FarManager
                         create = Create.Search;
                         EnterWord();
                         break;
-                  /*  case ConsoleKey.Delete:
+                   case ConsoleKey.Delete:
                         if (parent.Count > 1 && indexhist.Count > 1)
                         {
                             try
-                            {
-                                DialogResult ans = new DialogResult();
-                                if (cur[index] is DirectoryInfo) { ans = MessageBox.Show("Are you sure, you want to delete current folder and all its insides?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question); }
-                                else { ans = MessageBox.Show("Are you sure, you want to delete current file?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question); }
-
-                                if (ans == DialogResult.Yes)
-                                {
+                            { 
+                                
                                     if (cur[index] is DirectoryInfo) Directory.Delete(cur[index].FullName, true);
                                     else cur[index].Delete();
-                                }
-
+                                
                             }
                             catch (Exception e) { }
                             cur = (parent.First()[indexhist.First()] as DirectoryInfo).GetFileSystemInfos();
@@ -223,7 +270,7 @@ namespace FarManager
                             if (index >= cur.Length) index--;
                         }
 
-                        break; */
+                        break; 
                     case ConsoleKey.C:
                         cClicked = true;
                         if (cur[index] is FileInfo)

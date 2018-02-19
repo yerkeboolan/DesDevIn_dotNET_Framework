@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B8B7741-D981-4FC5-A326-30F7B85D107B}</ProjectGuid>
+    <ProjectGuid>{4D069F8C-E558-4393-8C8B-427E3509A979}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Lab3_Tasks</RootNamespace>
-    <AssemblyName>Lab3_Tasks</AssemblyName>
+    <RootNamespace>DictionaryClasses</RootNamespace>
+    <AssemblyName>DictionaryClasses</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
