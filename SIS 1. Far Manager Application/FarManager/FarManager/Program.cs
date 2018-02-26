@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Drawing;
 
 namespace FarManager
 {
@@ -98,11 +99,12 @@ namespace FarManager
             Console.BackgroundColor = ConsoleColor.Black;
             //Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
-            for(int i = 0; i < Console.WindowHeight; i++)
+            for (int i = 0; i < Console.WindowHeight; i++)
             {
-                for(int j = 0; j < Console.WindowWidth; j++)
+                for (int j = 0; j < Console.WindowWidth; j++)
                 {
-                    if (i == 0 || i == Console.WindowWidth - 1) {
+                    if (i == 0 || i == Console.WindowWidth - 1)
+                    {
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
                         Console.SetCursorPosition(i, j);
                         Console.Write("|");
@@ -211,7 +213,17 @@ namespace FarManager
                                 Console.WriteLine(e.Message);
                             }
                         }
-                        else System.Diagnostics.Process.Start(cur[index].FullName);
+                        else
+                        {
+                            Console.Clear();
+                            Bitmap bitm = new Bitmap(cur[index].FullName);
+                            ConsoleWriteImage(bitm);
+                            indexhist.Push(index);
+                            parent.Push(cur);
+                            index = 0;
+                            cur = null;
+                        } 
+                            //System.Diagnostics.Process.Start(cur[index].FullName);
                         break;
                     case ConsoleKey.F1:
                         if (show)
@@ -254,15 +266,15 @@ namespace FarManager
                         create = Create.Search;
                         EnterWord();
                         break;
-                   case ConsoleKey.Delete:
+                    case ConsoleKey.Delete:
                         if (parent.Count > 1 && indexhist.Count > 1)
                         {
                             try
-                            { 
-                                
-                                    if (cur[index] is DirectoryInfo) Directory.Delete(cur[index].FullName, true);
-                                    else cur[index].Delete();
-                                
+                            {
+
+                                if (cur[index] is DirectoryInfo) Directory.Delete(cur[index].FullName, true);
+                                else cur[index].Delete();
+
                             }
                             catch (Exception e) { }
                             cur = (parent.First()[indexhist.First()] as DirectoryInfo).GetFileSystemInfos();
@@ -270,7 +282,7 @@ namespace FarManager
                             if (index >= cur.Length) index--;
                         }
 
-                        break; 
+                        break;
                     case ConsoleKey.C:
                         cClicked = true;
                         if (cur[index] is FileInfo)
@@ -358,68 +370,68 @@ namespace FarManager
 
             }
         }
- 
-                    
-            static void showInfoPattern()
+
+
+        static void showInfoPattern()
+        {
+            for (int i = 36; i <= 43; i++)
             {
-                for (int i = 36; i <= 43; i++)
-                {
-                    Console.SetCursorPosition(1, i);
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write(new string(' ', Console.WindowWidth - 2));
-                }
+                Console.SetCursorPosition(1, i);
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(3, 36);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("NAME: ");
-                Console.SetCursorPosition(3, 37);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("PATH: ");
-                Console.SetCursorPosition(3, 38);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("CREATED: ");
-                Console.SetCursorPosition(3, 39);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("LAST MODIFIED: ");
-                Console.SetCursorPosition(3, 42);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("CURRENT DIRECTORY: ");
+                Console.Write(new string(' ', Console.WindowWidth - 2));
             }
-            static void ShowInfo(FileSystemInfo fsi)
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(3, 36);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("NAME: ");
+            Console.SetCursorPosition(3, 37);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("PATH: ");
+            Console.SetCursorPosition(3, 38);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("CREATED: ");
+            Console.SetCursorPosition(3, 39);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("LAST MODIFIED: ");
+            Console.SetCursorPosition(3, 42);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("CURRENT DIRECTORY: ");
+        }
+        static void ShowInfo(FileSystemInfo fsi)
+        {
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(9, 36);
+            Console.Write(fsi.Name.Length < 20 ? fsi.Name : fsi.Name.Substring(0, 20));
+            Console.SetCursorPosition(9, 37);
+            Console.Write(fsi.FullName.Length < 20 ? fsi.FullName : fsi.FullName.Substring(0, 20));
+            Console.SetCursorPosition(12, 38);
+            Console.Write(fsi.CreationTime);
+            Console.SetCursorPosition(18, 39);
+            Console.Write(fsi.LastAccessTime);
+        }
+
+
+
+        static void ShowHelp()
+        {
+            for (int i = 36; i <= 43; i++)
             {
-
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(9, 36);
-                Console.Write(fsi.Name.Length < 20 ? fsi.Name : fsi.Name.Substring(0, 20));
-                Console.SetCursorPosition(9, 37);
-                Console.Write(fsi.FullName.Length < 20 ? fsi.FullName : fsi.FullName.Substring(0, 20));
-                Console.SetCursorPosition(12, 38);
-                Console.Write(fsi.CreationTime);
-                Console.SetCursorPosition(18, 39);
-                Console.Write(fsi.LastAccessTime);
+                Console.SetCursorPosition(1, i);
+                Console.Write(new string(' ', Console.WindowWidth - 2));
             }
-
-
-
-            static void ShowHelp()
+            StreamReader sr = new StreamReader("help.txt");
+            Console.SetCursorPosition(2, 36);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            for (int i = 36; i <= 43; i++)
             {
-                for (int i = 36; i <= 43; i++)
-                {
-                    Console.SetCursorPosition(1, i);
-                    Console.Write(new string(' ', Console.WindowWidth - 2));
-                }
-                StreamReader sr = new StreamReader("help.txt");
-                Console.SetCursorPosition(2, 36);
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                for (int i = 36; i <= 43; i++)
-                {
-                    Console.SetCursorPosition(2, i);
-                    Console.Write(sr.ReadLine());
-                }
-                sr.Close();
-
+                Console.SetCursorPosition(2, i);
+                Console.Write(sr.ReadLine());
             }
+            sr.Close();
+
+        }
         static void ShowDirectory(DirectoryInfo dir)
         {
 
@@ -572,6 +584,62 @@ namespace FarManager
 
         }
 
+
+        static int[] cColors = { 0x000000, 0x000080, 0x008000, 0x008080, 0x800000, 0x800080, 0x808000, 0xC0C0C0, 0x808080, 0x0000FF, 0x00FF00, 0x00FFFF, 0xFF0000, 0xFF00FF, 0xFFFF00, 0xFFFFFF };
+
+        public static void ConsoleWritePixel(Color cValue)
+        {
+            Color[] cTable = cColors.Select(x => Color.FromArgb(x)).ToArray();
+            char[] rList = new char[] { (char)9617, (char)9618, (char)9619, (char)9608 }; // 1/4, 2/4, 3/4, 4/4
+            int[] bestHit = new int[] { 0, 0, 4, int.MaxValue }; //ForeColor, BackColor, Symbol, Score
+
+            for (int rChar = rList.Length; rChar > 0; rChar--)
+            {
+                for (int cFore = 0; cFore < cTable.Length; cFore++)
+                {
+                    for (int cBack = 0; cBack < cTable.Length; cBack++)
+                    {
+                        int R = (cTable[cFore].R * rChar + cTable[cBack].R * (rList.Length - rChar)) / rList.Length;
+                        int G = (cTable[cFore].G * rChar + cTable[cBack].G * (rList.Length - rChar)) / rList.Length;
+                        int B = (cTable[cFore].B * rChar + cTable[cBack].B * (rList.Length - rChar)) / rList.Length;
+                        int iScore = (cValue.R - R) * (cValue.R - R) + (cValue.G - G) * (cValue.G - G) + (cValue.B - B) * (cValue.B - B);
+                        if (!(rChar > 1 && rChar < 4 && iScore > 50000)) // rule out too weird combinations
+                        {
+                            if (iScore < bestHit[3])
+                            {
+                                bestHit[3] = iScore; //Score
+                                bestHit[0] = cFore;  //ForeColor
+                                bestHit[1] = cBack;  //BackColor
+                                bestHit[2] = rChar;  //Symbol
+                            }
+                        }
+                    }
+                }
+            }
+            Console.ForegroundColor = (ConsoleColor)bestHit[0];
+            Console.BackgroundColor = (ConsoleColor)bestHit[1];
+            Console.Write(rList[bestHit[2] - 1]);
+        }
+
+
+        public static void ConsoleWriteImage(Bitmap source)
+        {
+            int sMax = 39;
+            decimal percent = Math.Min(decimal.Divide(sMax, source.Width), decimal.Divide(sMax, source.Height));
+            Size dSize = new Size((int)(source.Width * percent), (int)(source.Height * percent));
+            Bitmap bmpMax = new Bitmap(source, dSize.Width * 2, dSize.Height);
+            for (int i = 0; i < dSize.Height; i++)
+            {
+                for (int j = 0; j < dSize.Width; j++)
+                {
+                    ConsoleWritePixel(bmpMax.GetPixel(j * 2, i));
+                    ConsoleWritePixel(bmpMax.GetPixel(j * 2 + 1, i));
+                }
+                System.Console.WriteLine();
+            }
+            Console.ResetColor();
+        }
+
         static void Search(string s, DirectoryInfo dir)
         {
             try
@@ -587,5 +655,4 @@ namespace FarManager
         }
 
     }
-    }
-
+}
