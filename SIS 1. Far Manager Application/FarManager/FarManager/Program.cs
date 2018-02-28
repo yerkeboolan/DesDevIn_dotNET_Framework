@@ -216,7 +216,7 @@ namespace FarManager
                         else
                         {
                             Console.Clear();
-                            Bitmap bitm = new Bitmap(cur[index].FullName);
+                            Bitmap bitm = new Bitmap(cur[index].FullName, true);
                             ConsoleWriteImage(bitm);
                             indexhist.Push(index);
                             parent.Push(cur);
