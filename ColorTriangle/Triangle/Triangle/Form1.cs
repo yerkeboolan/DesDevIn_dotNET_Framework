@@ -18,7 +18,7 @@ namespace Triangle
             InitializeComponent();
         }
 
-        int radius = 10;
+        int radius = 30;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -49,8 +49,8 @@ namespace Triangle
             {
                 for (int i = j; i <= n - j + 1; ++i)
                 {
-                    int xi = 20 + i * 10;
-                    int xj = 20 + j * 10;
+                    int xi = 20 + i * 25;
+                    int xj = 20 + j * 25;
                     e.Graphics.FillEllipse(new SolidBrush(c.ElementAt(cnt++)), xj, xi, radius, radius);
                 }
             }
