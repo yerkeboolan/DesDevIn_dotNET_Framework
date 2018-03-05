@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FF3B0D8-5059-4A08-B7C2-F303AD1A85AF}</ProjectGuid>
+    <ProjectGuid>{3AD8AEF1-FB4C-4EC1-A0C4-11B2E122F64C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TaskTimer</RootNamespace>
-    <AssemblyName>TaskTimer</AssemblyName>
+    <RootNamespace>FileSearcher</RootNamespace>
+    <AssemblyName>FileSearcher</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -45,18 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooLean.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BooLean.Designer.cs">
-      <DependentUpon>BooLean.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControl1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomControl1.Designer.cs">
-      <DependentUpon>CustomControl1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,9 +53,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="BooLean.resx">
-      <DependentUpon>BooLean.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
