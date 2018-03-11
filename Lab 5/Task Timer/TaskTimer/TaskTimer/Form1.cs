@@ -17,34 +17,12 @@ namespace TaskTimer
             InitializeComponent();
         }
 
-        private static List<Task> tasks = new List<Task>();
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
+       
         
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
 
        
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-            
-        }
+       
     }
 }
