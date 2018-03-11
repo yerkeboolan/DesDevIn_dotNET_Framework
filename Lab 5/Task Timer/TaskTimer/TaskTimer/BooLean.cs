@@ -17,6 +17,8 @@ namespace TaskTimer
             InitializeComponent();
         }
 
+
+
         private void chart1_Paint(object sender, EventArgs e)
         {
 
