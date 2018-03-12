@@ -17,6 +17,7 @@ namespace TaskTimer
             InitializeComponent();
         }
 
+        
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -30,7 +31,20 @@ namespace TaskTimer
         private void button1_Click(object sender, EventArgs e)
         {
             BooLean b = new BooLean();
-            flowLayoutPanel1.Controls.Add(b);
+             if(textBox1.Text != "")
+             {
+                
+                b.Name = textBox1.Text;
+                flowLayoutPanel1.Controls.Add(b);
+            }
+            else
+            {
+               
+                b.Name = textBox1.Text;
+                b.Name = "Task";
+                flowLayoutPanel1.Controls.Add(b);
+                
+            }
         }
     }
 }
