@@ -17,8 +17,7 @@ namespace TaskTimer
             InitializeComponent();
         }
 
-        public int i = 0;
-        public string name = null;
+        
 
 
         private void chart1_Paint(object sender, EventArgs e)
@@ -31,17 +30,6 @@ namespace TaskTimer
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (progressBar1.Value < progressBar1.Maximum)
-            {
-                progressBar1.Value++;
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            timer1.Start();
-        }
+        
     }
 }
