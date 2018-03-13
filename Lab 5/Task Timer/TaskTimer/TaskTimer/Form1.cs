@@ -18,10 +18,7 @@ namespace TaskTimer
         }
 
         
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -39,12 +36,25 @@ namespace TaskTimer
             }
             else
             {
-               
+                
                 b.Name = textBox1.Text;
                 b.Name = "Task";
                 flowLayoutPanel1.Controls.Add(b);
                 
             }
+            textBox1.Clear();
+            textBox1.Text = "Task Name";
+            textBox1.ForeColor = Color.Silver;
         }
+
+        private void textBox1_Enter(object sender, EventArgs e)
+        {
+            if(textBox1.Text == "Task Name") {
+                textBox1.Text = "";
+                textBox1.ForeColor = Color.Black;
+            }
+        }
+
+       
     }
 }
