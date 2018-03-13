@@ -20,90 +20,145 @@ namespace TaskTimer
         int hours = 0;
         int minutes = 0;
         int seconds = 0;
-        int h, m, s = 0;
+        int h = 0;
+        int m = 0;
+        int s = 0;
 
         
 
         private void BooLean_Load(object sender, EventArgs e)
         {
             label1.Text = this.Name;
-            startNstop.Text = "Sp";
-            
             timer1.Start();
             timer1.Interval = 1000;
 
-            h = (int)(Form.ActiveForm.Controls["numericUpDown1"] as NumericUpDown).Value;
-            m = (int)(Form.ActiveForm.Controls["numericUpDown2"] as NumericUpDown).Value;
 
-            TimeSpan ts = new TimeSpan(h, m, s);
-            label2.Text = ts.ToString();
+            if ((Form.ActiveForm.Controls["checkBox1"] as CheckBox).Checked == false)
+            {
+                timer1.Stop();
+                startNstop.BackgroundImage = (System.Drawing.Image)(Properties.Resources.Start_icon);
+            }
+            else
+            {
+                timer1.Start();
+                startNstop.BackgroundImage = (System.Drawing.Image)(Properties.Resources.Button_2_pause_icon);
+            }
+            
+               
+
+
+
+            if ((Form.ActiveForm.Controls["checkBox2"] as CheckBox).Checked == true)
+            {
+                label2.Text = "Indefinite";
+                progressBar1.Style = ProgressBarStyle.Marquee;
+                
+            }
+            else if ((Form.ActiveForm.Controls["checkBox2"] as CheckBox).Checked == false)
+            {
+                h = (int)(Form.ActiveForm.Controls["numericUpDown1"] as NumericUpDown).Value;
+                m = (int)(Form.ActiveForm.Controls["numericUpDown2"] as NumericUpDown).Value;
+
+                TimeSpan ts = new TimeSpan(h, m, s);
+                label2.Text = ts.ToString();
+            }
 
         }
 
 
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if ((int)(Form.ActiveForm.Controls["numericUpDown1"] as NumericUpDown).Value == 0 &&
-                (int)(Form.ActiveForm.Controls["numericUpDown2"] as NumericUpDown).Value == 0)
+            if (h == 0 && m == 0)
             {
                 timer1.Enabled = false;
             }
 
 
-            else {
-                progressBar1.Maximum = ((int)(Form.ActiveForm.Controls["numericUpDown1"] as NumericUpDown).Value * 60 + (int)(Form.ActiveForm.Controls["numericUpDown2"] as NumericUpDown).Value) * 60;
+            
+            else
+            {
+                progressBar1.Maximum = (h * 60 + m) * 60;
                 if (progressBar1.Value < progressBar1.Maximum) progressBar1.Value++;
                 else
                 {
                     timer1.Stop();
                 }
                 seconds++;
-                if (seconds > 59) {
-                    seconds = 0;
+                if (seconds > 60)
+                {
                     minutes++;
+                    seconds = 0;
                 }
                 if (minutes > 59)
                 {
-                    minutes = 0;
                     hours++;
+                    minutes = 0;
                 }
 
                 TimeSpan ts = new TimeSpan(hours, minutes, seconds);
                 label3.Text = ts.ToString();
             }
+
+            if(progressBar1.Value == progressBar1.Maximum)
+            {
+                timer1.Stop();
+                System.Media.SystemSounds.Beep.Play();
+                MessageBox.Show("Task has reached the goal", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         }
+
+
+
         private void startNstop_Click(object sender, EventArgs e)
         {
             if (timer1.Enabled)
             {
                 timer1.Stop();
-                startNstop.Text = "St";
+                startNstop.BackgroundImage = (System.Drawing.Image)(Properties.Resources.Start_icon);
             }
             else
             {
                 timer1.Start();
-                startNstop.Text = "Sp";
+                startNstop.BackgroundImage = (System.Drawing.Image)(Properties.Resources.Button_2_pause_icon);
             }
 
         }
 
+        private void rst_Click(object sender, EventArgs e)
+        {
+            timer1.Stop();
+            if (MessageBox.Show("Are you sure you want to reset the task? The task history will not be reset", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                progressBar1.Value = 0;
+                hours = 0;
+                minutes = 0;
+                seconds = -1;
+                timer1.Start();
+            }
+            else
+            {
+                timer1.Start();
+            }
+        }
 
-
-
-
-
-
-
-
-        /*
         private void dlt_Click(object sender, EventArgs e)
         {
-            timer1.Enabled = false;
-            BooLean boolean = new BooLean();
+            timer1.Stop();
             if(MessageBox.Show("Are you sure you want to delete the task? The history of the task will be deleted.", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                boolean.Controls.Clear();
+                Dispose();
             }
-        } */
+            else
+            {
+                timer1.Start();
+            }
+        }
+
+        private void label1_DoubleClick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

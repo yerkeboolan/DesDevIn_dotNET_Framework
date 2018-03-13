@@ -27,6 +27,7 @@ namespace TaskTimer
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             BooLean b = new BooLean();
              if(textBox1.Text != "")
              {
@@ -34,17 +35,10 @@ namespace TaskTimer
                 b.Name = textBox1.Text;
                 flowLayoutPanel1.Controls.Add(b);
             }
-            else
-            {
-                
-                b.Name = textBox1.Text;
-                b.Name = "Task";
-                flowLayoutPanel1.Controls.Add(b);
-                
-            }
             textBox1.Clear();
             textBox1.Text = "Task Name";
             textBox1.ForeColor = Color.Silver;
+        
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -55,6 +49,20 @@ namespace TaskTimer
             }
         }
 
-       
+        private void checkBox2_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked == true)
+            {
+                numericUpDown1.Enabled = false;
+                numericUpDown2.Enabled = false;
+            }
+            else
+            {
+                numericUpDown1.Enabled = true;
+                numericUpDown2.Enabled = true;
+            }
+
+        }
+
     }
 }
