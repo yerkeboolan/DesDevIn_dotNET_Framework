@@ -22,7 +22,7 @@ namespace TaskTimer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            timer1.Start();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -31,14 +31,14 @@ namespace TaskTimer
             BooLean b = new BooLean();
              if(textBox1.Text != "")
              {
-                
                 b.Name = textBox1.Text;
+                
                 flowLayoutPanel1.Controls.Add(b);
             }
             textBox1.Clear();
             textBox1.Text = "Task Name";
             textBox1.ForeColor = Color.Silver;
-        
+            
         }
 
         private void textBox1_Enter(object sender, EventArgs e)
@@ -64,5 +64,13 @@ namespace TaskTimer
 
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            chart1.Series["Series1"].Points.Clear();
+            foreach (BooLean element in flowLayoutPanel1.Controls)
+            {
+                chart1.Series["Series1"].Points.AddXY(element.getName(), element.getTime());
+            }
+        }
     }
 }
