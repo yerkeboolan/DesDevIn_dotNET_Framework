@@ -11,11 +11,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/// <summary>
+/// 
+/// </summary>
 namespace FullSpellCorrector
 {
     
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form1" /> class.
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -29,14 +35,34 @@ namespace FullSpellCorrector
         }
 
 
+        /// <summary>
+        /// The sr
+        /// </summary>
         StreamReader sr = new StreamReader("words");
+        /// <summary>
+        /// The words
+        /// </summary>
         List<string> words = new List<string>();
+        /// <summary>
+        /// The answers
+        /// </summary>
         List<string> answers = new List<string>();
 
+        /// <summary>
+        /// The selected
+        /// </summary>
         string selected = "";
 
+        /// <summary>
+        /// The mini
+        /// </summary>
         int mini = 0;
 
+        /// <summary>
+        /// Handles the TextChanged event of the richTextBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             string text = "";
@@ -87,6 +113,12 @@ namespace FullSpellCorrector
             }
         }
 
+        /// <summary>
+        /// Boxes the checked.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="word">The word.</param>
+        /// <param name="n">The n.</param>
         public void boxChecked(string text, string word, int n)
         {
             string ans = LeivenshteinAlgorithm(word);
@@ -97,6 +129,11 @@ namespace FullSpellCorrector
             richTextBox1.SelectionStart = n - word.Length + ans.Length;
         }
 
+        /// <summary>
+        /// Boxes the not checked.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <param name="n">The n.</param>
         public void boxNotChecked(string word, int n)
         {
 
@@ -112,6 +149,11 @@ namespace FullSpellCorrector
 
 
 
+        /// <summary>
+        /// Leivenshteins the algorithm.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <returns></returns>
         public string LeivenshteinAlgorithm(string word)
         {
             string s_comp, ans = "";
@@ -162,6 +204,14 @@ namespace FullSpellCorrector
             return ans;
         }
 
+        /// <summary>
+        /// Replaces the word.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="word">The word.</param>
+        /// <param name="ans">The ans.</param>
+        /// <param name="n">The n.</param>
+        /// <returns></returns>
         public string ReplaceWord(string text, string word, string ans, int n)
         {
             int i = n;
@@ -172,6 +222,11 @@ namespace FullSpellCorrector
         }
 
 
+        /// <summary>
+        /// Handles the CheckedChanged event of the checkBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox1.Checked)
@@ -188,6 +243,11 @@ namespace FullSpellCorrector
 
         }
 
+        /// <summary>
+        /// Handles the MouseDoubleClick event of the richTextBox1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void richTextBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
 
@@ -216,13 +276,23 @@ namespace FullSpellCorrector
         }
 
 
+        /// <summary>
+        /// Handles the Click event of the button2 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button2_Click(object sender, EventArgs e)
         {
             richTextBox1.SelectionColor = Color.Black;
         }
 
 
-       
+
+        /// <summary>
+        /// Handles the ItemClicked event of the contextMenuStrip1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ToolStripItemClickedEventArgs"/> instance containing the event data.</param>
         private void contextMenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             string clicked = e.ClickedItem.Text;
@@ -244,6 +314,11 @@ namespace FullSpellCorrector
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button1 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button1_Click(object sender, EventArgs e)
         {
             words.Add(selected);
@@ -253,6 +328,11 @@ namespace FullSpellCorrector
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the button4 control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void button4_Click(object sender, EventArgs e)
         {
             this.Close();
