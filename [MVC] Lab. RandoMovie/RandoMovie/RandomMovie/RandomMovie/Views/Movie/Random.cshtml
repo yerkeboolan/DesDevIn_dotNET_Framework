@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RandomMovie.Models.Movie>
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Rating</th>
+        <th>Name</th>
+        <th>Year</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ID</td>
+            <td>@item.Rating</td>
+            <td>@item.Name</td>
+            <td>@item.Year</td>
+        </tr>
+    }
+
+
+</table>
+

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace QuizAboutMovie
+namespace RandomMovie
 {
     public class FilterConfig
     {

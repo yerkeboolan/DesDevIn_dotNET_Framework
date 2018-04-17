@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizAboutMovie", "QuizAboutMovie\QuizAboutMovie.csproj", "{07172AE3-1548-4DAD-8E58-A81C0C329C5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomMovie", "RandomMovie\RandomMovie.csproj", "{6408B819-7763-4133-94FD-F8855F7C80FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{07172AE3-1548-4DAD-8E58-A81C0C329C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07172AE3-1548-4DAD-8E58-A81C0C329C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07172AE3-1548-4DAD-8E58-A81C0C329C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07172AE3-1548-4DAD-8E58-A81C0C329C5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6408B819-7763-4133-94FD-F8855F7C80FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6408B819-7763-4133-94FD-F8855F7C80FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6408B819-7763-4133-94FD-F8855F7C80FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6408B819-7763-4133-94FD-F8855F7C80FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AEFD4FB3-3814-4DA3-B777-A991001AC190}
+		SolutionGuid = {1C992C54-6581-43A3-9C3E-AF59B05B1216}
 	EndGlobalSection
 EndGlobal

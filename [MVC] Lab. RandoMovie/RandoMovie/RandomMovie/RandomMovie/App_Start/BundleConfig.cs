@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace QuizAboutMovie
+namespace RandomMovie
 {
     public class BundleConfig
     {

@@ -117,6 +117,14 @@ namespace OOPaint
            // shape = newShape;
            this.Controls.Add(newShape);
             // MessageBox.Show("sssssssssssssssssssssssssssss");
+
+            ContextMenu contextMenu = new ContextMenu();
+            contextMenu.MenuItems.Add("Pick Back colour", new EventHandler(newShape.BackColourChange));
+            contextMenu.MenuItems.Add("Pick Font colour", new EventHandler(newShape.ForeColourChange));
+            newShape.ContextMenu = contextMenu;
+
+            newShape.BackColor = Color.Red;
+            this.Controls.Add(newShape);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -283,6 +291,44 @@ namespace OOPaint
         {
             make();
             this.Invalidate();//question 1
+        }
+
+        public void BackColourChange(object sender, EventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            if (menuItem == null) return;
+
+            ContextMenu cm = menuItem.GetContextMenu();
+            if (cm == null) return;
+
+            Shape control = cm.SourceControl as Shape;
+            ColorDialog cd = new ColorDialog();
+            DialogResult dr = cd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                control.BackColor = cd.Color;
+
+                control.Invalidate();
+            }
+        }
+
+        public void ForeColourChange(object sender, EventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            if (menuItem == null) return;
+
+            ContextMenu cm = menuItem.GetContextMenu();
+            if (cm == null) return;
+
+            Shape control = cm.SourceControl as Shape;
+            ColorDialog cd = new ColorDialog();
+            DialogResult dr = cd.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                control.ForeColor = cd.Color;
+
+                control.Invalidate();
+            }
         }
     }
 }
