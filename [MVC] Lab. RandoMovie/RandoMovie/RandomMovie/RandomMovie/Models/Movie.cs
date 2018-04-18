@@ -11,5 +11,6 @@ namespace RandomMovie.Models
         public Double Rating { get; set; }
         public string Name { get; set; }
         public int Year { get; set; }
+        
     }
 }
